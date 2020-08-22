@@ -1,0 +1,47 @@
+{
+  "name": "pingcrm",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "build": "node ace build",
+    "start": "node ace serve --watch",
+    "watch": "npm run development -- --watch"
+  },
+  "devDependencies": {
+    "@adonisjs/assembler": "^2.0.0",
+    "adonis-preset-ts": "^1.0.4",
+    "pino-pretty": "^4.1.0",
+    "sqlite3": "^5.0.0",
+    "typescript": "^3.9.7",
+    "vue-template-compiler": "^2.6.12",
+    "youch": "^2.0.10",
+    "youch-terminal": "^1.0.0"
+  },
+  "dependencies": {
+    "@adonisjs/ace": "^6.0.0",
+    "@adonisjs/auth": "^4.3.1",
+    "@adonisjs/core": "^5.0.0-preview-rc",
+    "@adonisjs/fold": "^6.0.0",
+    "@adonisjs/lucid": "^8.4.1",
+    "@adonisjs/session": "^3.0.0",
+    "@adonisjs/view": "^2.0.0",
+    "@fullhuman/postcss-purgecss": "^2.3.0",
+    "@inertiajs/inertia": "^0.2.1",
+    "@inertiajs/inertia-vue": "^0.2.0",
+    "cross-env": "^7.0.2",
+    "laravel-mix": "^5.0.5",
+    "luxon": "^1.24.1",
+    "popper.js": "^1.16.1",
+    "portal-vue": "^2.1.7",
+    "postcss-import": "^12.0.1",
+    "postcss-nesting": "^7.0.1",
+    "proxy-addr": "^2.0.6",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.19",
+    "tailwindcss": "^1.7.3",
+    "vue": "^2.6.12",
+    "vue-meta": "^2.4.0"
+  }
+}
