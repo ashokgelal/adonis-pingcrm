@@ -1,32 +1,44 @@
-import {TagContract} from "@ioc:Adonis/Core/View";
-import {HttpContextContract} from "@ioc:Adonis/Core/HttpContext";
+import {TagContract} from '@ioc:Adonis/Core/View';
+import {HttpContextContract} from '@ioc:Adonis/Core/HttpContext';
 
 export class Inertia {
   private _sharedData: Object = {}
 
-  constructor(private ctx: HttpContextContract) {
+  constructor (private ctx: HttpContextContract) {
   }
 
-  public share(data: Object) {
+  public share (data: Object) {
     this._sharedData = {...this._sharedData, ...data}
   }
 
-  public async render(component: String, props?: Object) {
+  public async render (component: String, props?: Object) {
     const {request, response, view} = this.ctx
-    const isInertiaRequest = request.header("X-Inertia") || false
-    const combinedProps = {...this._sharedData, ...this.errors(), auth: {}, ...props}
+    const isInertiaRequest = request.header('X-Inertia') || false
+    const auth = await this.auth()
+    const combinedProps = {...this._sharedData, ...this.extractErrors(), ...auth, ...props}
 
-    const page = {component, props: combinedProps, url: request.url(true), version: "1"}
+    const page = {component, props: combinedProps, url: request.url(true), version: '1'}
     if (isInertiaRequest) {
-      response.vary("Accept")
-      response.header("X-Inertia", "true")
+      response.vary('Accept')
+      response.header('X-Inertia', 'true')
       response.json(page)
     } else {
-      response.send(view.render("app", {page}))
+      response.send(view.render('app', {page}))
     }
   }
 
-  private errors() {
+  private async auth () {
+    const {auth} = this.ctx
+    if (auth.isAuthenticated) {
+      const user = auth.user
+      await user?.preload('account')
+      user?.serialize()
+      return {auth: {user}}
+    }
+  }
+
+  private extractErrors () {
+    // fixme: user better api
     const {session} = this.ctx
     const flash = session.flashMessages.all() || {}
 
@@ -43,21 +55,21 @@ export class Inertia {
 }
 
 export default class InertiaProvider {
-  public async boot() {
+  public async boot () {
     await InertiaProvider.registerInertiaTag()
     await InertiaProvider.registerInertiaContext()
 
   }
 
-  private static async registerInertiaTag() {
-    const View = (await import("@ioc:Adonis/Core/View")).default
+  private static async registerInertiaTag () {
+    const View = (await import('@ioc:Adonis/Core/View')).default
     const InertiaTag: TagContract = {
       seekable: false,
       block: false,
-      tagName: "inertia",
-      compile(_, buffer, tag) {
+      tagName: 'inertia',
+      compile (_, buffer, tag) {
         buffer.outputExpression(
-          "`<div id=\"app\" data-page='${JSON.stringify(state.page)}'>`",
+          '`<div id="app" data-page=\'${JSON.stringify(state.page)}\'>`',
           tag.filename,
           tag.loc.start.line,
           true
@@ -67,14 +79,13 @@ export default class InertiaProvider {
     View.registerTag(InertiaTag);
   }
 
-  private static async registerInertiaContext() {
-    const HttpContext = (await import("@ioc:Adonis/Core/HttpContext")).default
-    HttpContext.getter("inertia", function () {
+  private static async registerInertiaContext () {
+    const HttpContext = (await import('@ioc:Adonis/Core/HttpContext')).default
+    HttpContext.getter('inertia', function () {
       return new Inertia(this)
     }, true)
   }
 
-  public async ready() {
-
+  public async ready () {
   }
 }
