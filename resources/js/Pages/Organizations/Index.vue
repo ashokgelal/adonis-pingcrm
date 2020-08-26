@@ -50,7 +50,7 @@
         </tr>
       </table>
     </div>
-    <pagination :links="organizations.links" />
+    <pagination :links="organizations.links" :meta="organizations.meta"/>
   </div>
 </template>
 
