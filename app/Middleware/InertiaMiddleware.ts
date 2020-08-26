@@ -7,6 +7,7 @@ export default class InertiaMiddleware {
     const isInertiaRequest = request.header("X-Inertia") || false
     if (isInertiaRequest) {
       // Hack Alert: This is to avoid Adonis sending a JSON object on validation errors
+      // fixme: user better api
       request.ajax = function () {
         return false
       }
