@@ -3,12 +3,17 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import {
   column,
   beforeSave,
-  BaseModel,
-} from '@ioc:Adonis/Lucid/Orm'
+  BaseModel, belongsTo,
+} from "@ioc:Adonis/Lucid/Orm"
+import Account from "App/Models/Account";
+import {BelongsTo} from "@ioc:Adonis/Lucid/Relations";
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
+
+  @column()
+  public accountId: number
 
   @column()
   public firstName: string
@@ -33,6 +38,9 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Account)
+  public account: BelongsTo<typeof Account>
 
   @beforeSave()
   public static async hashPassword (user: User) {
