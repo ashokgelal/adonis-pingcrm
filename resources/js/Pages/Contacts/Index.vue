@@ -58,7 +58,7 @@
         </tr>
       </table>
     </div>
-    <pagination :links="contacts.links" />
+    <pagination :links="contacts.links" :meta="contacts.meta"/>
   </div>
 </template>
 

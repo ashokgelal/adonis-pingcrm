@@ -15,3 +15,6 @@ is just fine. [InertiaMiddleware.ts]
 - [ ] Inconsistent behavior with `orderBy` with 1 vs multiple columns. With 1 column `orderBy('firstName')` works but
 with multiple columns `orderBy(['firstName', 'lastName'])` does not. It needs to be `orderBy(['first_name', 'last_name'])`
 instead. [OrganizationsController.ts]
+- [ ] Calling toJSON() on the pagination object fails if one of the model's attributes has a single quote in it e.g. `O'Keefe`
+- [ ] IDE shows an error when calling `orWhereHas` on scoped query [Contact.ts #59]
+- [ ] Not having a `db:refresh` command is kind of annoying during development.

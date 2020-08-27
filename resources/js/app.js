@@ -8,6 +8,7 @@ Vue.mixin({
   methods: {
     route: (name, params) => {
       const baseUrl = process.env.MIX_APP_URL
+      const query = new URLSearchParams(params || {}).toString()
       let uri = ''
       switch (name) {
         case 'login':
@@ -40,7 +41,6 @@ Vue.mixin({
           uri = `users/${params}/restore`
           break
         case 'organizations':
-          const query = new URLSearchParams(params).toString()
           uri = query ? `organizations?${query}` : `organizations`
           break
         case 'organizations.create':
@@ -60,13 +60,13 @@ Vue.mixin({
           uri = `organizations/${params}/restore`
           break
         case 'contacts':
-          uri = `contacts`
+          uri = query ? `contacts?${query}` : `contacts`
           break
         case 'contacts.create':
           uri = `contacts/create`
           break
         case 'contacts.store':
-          uri = `contacts/create`
+          uri = `contacts`
           break
         case 'contacts.edit':
           uri = `contacts/${params}/edit`

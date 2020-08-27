@@ -35,14 +35,14 @@ export const ContactFactory = Factory.define(Contact, ({faker}) => {
     address: faker.address.streetAddress(),
     city: faker.address.city(),
     region: faker.address.state(),
-    country: faker.address.countryCode(),
+    country: faker.random.arrayElement(['US', 'CA']),
     postalCode: faker.address.zipCode()
   }
 }).build()
 
 export const OrganizationFactory = Factory.define(Organization, ({faker}) => {
   return {
-    name: faker.company.companyName(),
+    name: faker.company.companyName().replace(/'/g, ''),
     email: faker.internet.exampleEmail(),
     phone: faker.phone.phoneNumber(),
     address: faker.phone.phoneNumber(),

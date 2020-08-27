@@ -8,15 +8,15 @@ export default class OrganizationsController {
     const limit = 10
     // fixme: scoping is not getting applied to the pagination
     const organizations = await Organization.query()
-      .apply((scopes) => scopes.filter(request.only(['search', 'trashed'])))
+      .apply((scopes) => scopes.filter(request.only(['search'])))
       .paginate(page, limit)
     organizations.baseUrl('/organizations')
 
     const links = organizations.getUrlsForRange(1, organizations.lastPage)
-    const {search, trashed} = request.all()
+    const {search} = request.all()
 
     await inertia.render('Organizations/Index', {
-      filters: {search, trashed},
+      filters: {search},
       organizations: {links, ...organizations.toJSON()}
     })
   }
