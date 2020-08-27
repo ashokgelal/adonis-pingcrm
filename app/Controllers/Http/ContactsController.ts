@@ -6,7 +6,6 @@ export default class ContactsController {
   public async index ({request, inertia}: HttpContextContract) {
     const page = request.input('page', 1)
     const limit = 10
-    // fixme: scoping is not getting applied to the pagination
     const contacts = await Contact.query()
       .preload('organization')
       .apply((scopes) => {
@@ -74,7 +73,6 @@ export default class ContactsController {
   }
 
   public async destroy ({response, session, params}: HttpContextContract) {
-    console.log(params)
     const organization = await Contact.findOrFail(params.contact)
     await organization.delete()
     session.flash('success', 'Contact deleted.')

@@ -46,6 +46,9 @@ export default class Contact extends BaseModel {
   @column.dateTime({autoCreate: true, autoUpdate: true})
   public updatedAt: DateTime
 
+  @belongsTo(() => Organization)
+  public organization: BelongsTo<typeof Organization>
+
   @computed()
   public get name () {
     return `${this.firstName} ${this.lastName}`
@@ -65,7 +68,4 @@ export default class Contact extends BaseModel {
   public static orderByName = scope((query) => {
     query.orderBy('lastName').orderBy('firstName')
   })
-
-  @belongsTo(() => Organization)
-  public organization: BelongsTo<typeof Organization>
 }

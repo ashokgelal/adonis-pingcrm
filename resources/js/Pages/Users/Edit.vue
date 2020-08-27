@@ -18,7 +18,7 @@
           <text-input v-model="form.last_name" :errors="$page.errors.last_name" class="pr-6 pb-8 w-full lg:w-1/2" label="Last name" />
           <text-input v-model="form.email" :errors="$page.errors.email" class="pr-6 pb-8 w-full lg:w-1/2" label="Email" />
           <text-input v-model="form.password" :errors="$page.errors.password" class="pr-6 pb-8 w-full lg:w-1/2" type="password" autocomplete="new-password" label="Password" />
-          <select-input v-model="form.owner" :errors="$page.errors.owner" class="pr-6 pb-8 w-full lg:w-1/2" label="Owner">
+          <select-input v-model="form.owner === 1" :errors="$page.errors.owner" class="pr-6 pb-8 w-full lg:w-1/2" label="Owner">
             <option :value="true">Yes</option>
             <option :value="false">No</option>
           </select-input>
@@ -85,7 +85,7 @@ export default {
       data.append('photo', this.form.photo || '')
       data.append('_method', 'put')
 
-      this.$inertia.post(this.route('users.update', this.user.id), data)
+      this.$inertia.put(this.route('users.update', this.user.id), data)
         .then(() => {
           this.sending = false
           if (Object.keys(this.$page.errors).length === 0) {

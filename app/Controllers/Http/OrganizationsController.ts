@@ -59,7 +59,6 @@ export default class OrganizationsController {
   }
 
   public async destroy ({response, session, params}: HttpContextContract) {
-    console.log(params)
     const organization = await Organization.findOrFail(params.organization)
     await organization.delete()
     session.flash('success', 'Organization deleted.')

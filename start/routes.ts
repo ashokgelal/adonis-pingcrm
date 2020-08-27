@@ -1,8 +1,9 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 // Auth
-Route.get('login', 'Auth/LoginController.showLoginForm')
-Route.post('login', 'Auth/LoginController.login')
+Route.get('login', 'AuthController.showLoginForm')
+Route.post('login', 'AuthController.login')
+Route.post('logout', 'AuthController.logout')
 
 // Dashboard
 Route.get('/', 'DashboardsController.index').middleware('auth')

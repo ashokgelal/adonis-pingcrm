@@ -22,7 +22,7 @@ Vue.mixin({
           uri = ''
           break
         case 'users':
-          uri = 'users'
+          uri = query ? `users?${query}` : `users`
           break
         case 'users.create':
           uri = 'users/create'
@@ -34,7 +34,7 @@ Vue.mixin({
           uri = `users/${params}/edit`
           break
         case 'users.update':
-        case 'users.delete':
+        case 'users.destroy':
           uri = `users/${params}`
           break
         case 'users.restore':

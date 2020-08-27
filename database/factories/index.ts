@@ -9,7 +9,7 @@ export const UserFactory = Factory
   .define(User, ({faker}) => {
     return {
       firstName: faker.name.firstName(),
-      lastName: faker.internet.email(),
+      lastName: faker.name.lastName(),
       email: faker.internet.email(),
       password: "secret",
       rememberMeToken: randomString(10),
