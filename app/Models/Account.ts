@@ -27,3 +27,26 @@ export default class Account extends BaseModel {
   @hasMany(() => Contact)
   public contacts: HasMany<typeof Contact>
 }
+
+export class Profile extends BaseModel {
+  @column({isPrimary: true})
+  public id: number
+
+  @column()
+  public name: string
+
+  @column.dateTime({autoCreate: true})
+  public createdAt: DateTime
+
+  @column.dateTime({autoCreate: true, autoUpdate: true})
+  public updatedAt: DateTime
+
+  @hasMany(() => User)
+  public users: HasMany<typeof User>
+
+  @hasMany(() => Organization)
+  public organizations: HasMany<typeof Organization>
+
+  @hasMany(() => Contact)
+  public contacts: HasMany<typeof Contact>
+}

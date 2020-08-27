@@ -48,7 +48,7 @@ export const OrganizationFactory = Factory.define(Organization, ({faker}) => {
     address: faker.phone.phoneNumber(),
     city: faker.address.city(),
     region: faker.address.state(),
-    country: faker.address.countryCode(),
+    country: faker.random.arrayElement(['US', 'CA']),
     postalCode: faker.address.zipCode()
   }
 }).build()

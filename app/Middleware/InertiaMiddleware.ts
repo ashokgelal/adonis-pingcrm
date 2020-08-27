@@ -27,7 +27,8 @@ export default class InertiaMiddleware {
     }
 
     if (InertiaMiddleware.shouldChangeRedirectStatus(request, response)) {
-      response.seeOther()
+      // fixme: why does body needs to be set to an empty string even though the body of `seeOther()` accepts null?
+      response.seeOther("")
     }
   }
 

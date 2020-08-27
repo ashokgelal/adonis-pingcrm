@@ -1,5 +1,5 @@
-import {DateTime} from "luxon"
-import {BaseModel, column} from "@ioc:Adonis/Lucid/Orm"
+import {DateTime} from 'luxon'
+import {BaseModel, column, computed} from '@ioc:Adonis/Lucid/Orm'
 
 export default class Contact extends BaseModel {
   @column({isPrimary: true})
@@ -43,4 +43,9 @@ export default class Contact extends BaseModel {
 
   @column.dateTime({autoCreate: true, autoUpdate: true})
   public updatedAt: DateTime
+
+  @computed()
+  public get name () {
+    return `${this.firstName} ${this.lastName}`
+  }
 }

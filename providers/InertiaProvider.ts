@@ -58,7 +58,6 @@ export default class InertiaProvider {
   public async boot () {
     await InertiaProvider.registerInertiaTag()
     await InertiaProvider.registerInertiaContext()
-
   }
 
   private static async registerInertiaTag () {
@@ -84,8 +83,5 @@ export default class InertiaProvider {
     HttpContext.getter('inertia', function () {
       return new Inertia(this)
     }, true)
-  }
-
-  public async ready () {
   }
 }

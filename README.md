@@ -10,3 +10,8 @@ a JSON object on validation errors. [InertiaMiddleware.ts]
 - [ ] Pagination is not taking scoping into consideration. [OrganizationsController.ts]
 - [ ] Decide if Laravel Mix can be replaced with just plain-old Webpack.
 - [ ] Complete remaining PingCRM demo features.
+- [ ] `seeOther()` method throws an exception if body isn't passed even though the signature of the method says nullable
+is just fine. [InertiaMiddleware.ts]
+- [ ] Inconsistent behavior with `orderBy` with 1 vs multiple columns. With 1 column `orderBy('firstName')` works but
+with multiple columns `orderBy(['firstName', 'lastName'])` does not. It needs to be `orderBy(['first_name', 'last_name'])`
+instead. [OrganizationsController.ts]

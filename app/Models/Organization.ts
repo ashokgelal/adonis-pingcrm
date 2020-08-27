@@ -1,5 +1,7 @@
 import {DateTime} from 'luxon'
-import {BaseModel, column, scope} from '@ioc:Adonis/Lucid/Orm'
+import {BaseModel, column, hasMany, scope} from '@ioc:Adonis/Lucid/Orm'
+import Contact from 'App/Models/Contact'
+import {HasMany} from '@ioc:Adonis/Lucid/Relations'
 
 export default class Organization extends BaseModel {
   @column({isPrimary: true})
@@ -37,6 +39,9 @@ export default class Organization extends BaseModel {
 
   @column.dateTime({autoCreate: true, autoUpdate: true})
   public updatedAt: DateTime
+
+  @hasMany(() => Contact)
+  public contacts: HasMany<typeof Contact>
 
   public static filter = scope((query, {search}: { search: any }) => {
     if (search) {
