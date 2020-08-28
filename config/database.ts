@@ -42,6 +42,7 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
       },
       useNullAsDefault: true,
       healthCheck: false,
+      debug: true
     },
   },
 

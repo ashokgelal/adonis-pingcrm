@@ -3,7 +3,6 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import {BaseModel, beforeSave, belongsTo, column, computed, scope,} from '@ioc:Adonis/Lucid/Orm'
 import Account from 'App/Models/Account';
 import {BelongsTo} from '@ioc:Adonis/Lucid/Relations';
-import {LucidModel, ModelQueryBuilderContract} from '@ioc:Adonis/Lucid/Model'
 
 export default class User extends BaseModel {
   @column({isPrimary: true})
@@ -40,7 +39,7 @@ export default class User extends BaseModel {
   public account: BelongsTo<typeof Account>
 
   @computed()
-  public get name() {
+  public get name () {
     return `${this.firstName} ${this.lastName}`
   }
 
@@ -52,25 +51,6 @@ export default class User extends BaseModel {
   }
 
   public static role = scope((query, role) => {
-    User.applyRoleScope(query, role)
-  })
-
-  public static filter = scope((query, {search, role}: { search: any, role: any }) => {
-    if (search) {
-      query.where('first_name', 'like', `%${search}%`)
-        .orWhere('last_name', 'like', `%${search}%`)
-        .orWhere('email', 'like', `%${search}%`)
-    }
-    if (role) {
-      User.applyRoleScope(query, role)
-    }
-  })
-
-  public static orderByName = scope((query) => {
-    query.orderBy('lastName').orderBy('firstName')
-  })
-
-  private static applyRoleScope (query: ModelQueryBuilderContract<LucidModel>, role: string) {
     switch (role) {
       case 'user':
         query.where('owner', false)
@@ -79,5 +59,20 @@ export default class User extends BaseModel {
         query.where('owner', true)
         break
     }
-  }
+  })
+
+  public static filter = scope<typeof User>((query, {search, role}: { search: any, role: any }) => {
+    if (search) {
+      query.where('first_name', 'like', `%${search}%`)
+        .orWhere('last_name', 'like', `%${search}%`)
+        .orWhere('email', 'like', `%${search}%`)
+    }
+    if (role) {
+      query.apply((scopes) => scopes.role(role))
+    }
+  })
+
+  public static orderByName = scope((query) => {
+    query.orderBy('lastName').orderBy('firstName')
+  })
 }

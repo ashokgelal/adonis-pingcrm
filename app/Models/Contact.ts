@@ -54,7 +54,7 @@ export default class Contact extends BaseModel {
     return `${this.firstName} ${this.lastName}`
   }
 
-  public static filter = scope((query, {search}: { search: any }) => {
+  public static filter = scope<typeof Contact>((query, {search}: { search: any }) => {
     if (search) {
       query.where('first_name', 'like', `%${search}%`)
         .orWhere('last_name', 'like', `%${search}%`)
