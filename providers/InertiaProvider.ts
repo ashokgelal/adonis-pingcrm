@@ -1,5 +1,6 @@
 import {TagContract} from '@ioc:Adonis/Core/View';
 import {HttpContextContract} from '@ioc:Adonis/Core/HttpContext';
+import { AllHtmlEntities } from 'html-entities'
 
 export class Inertia {
   private _sharedData: Object = {}
@@ -62,18 +63,24 @@ export default class InertiaProvider {
 
   private static async registerInertiaTag () {
     const View = (await import('@ioc:Adonis/Core/View')).default
+    const encoder = new AllHtmlEntities()
     const InertiaTag: TagContract = {
       seekable: false,
       block: false,
       tagName: 'inertia',
       compile (_, buffer, tag) {
         buffer.outputExpression(
-          '`<div id="app" data-page=\'${JSON.stringify(state.page)}\'>`',
+          '`<div id="app" data-page="\${ctx.encode(JSON.stringify(state.page))}"\>`',
           tag.filename,
           tag.loc.start.line,
           true
         );
       },
+      run (context) {
+        context.macro('encode', function (value) {
+          return encoder.encode(value)
+        })
+      }
     };
     View.registerTag(InertiaTag);
   }
