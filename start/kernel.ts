@@ -10,6 +10,7 @@
 */
 
 import Server from '@ioc:Adonis/Core/Server'
+import InertiaMiddleware from 'App/Middleware/InertiaMiddleware'
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,6 @@ import Server from '@ioc:Adonis/Core/Server'
 */
 Server.middleware.register([
   'Adonis/Core/BodyParserMiddleware',
-  'App/Middleware/InertiaMiddleware',
   'App/Middleware/SilentAuth'
 ])
 
@@ -45,3 +45,9 @@ Server.middleware.register([
 Server.middleware.registerNamed({
   auth: 'App/Middleware/Auth'
 })
+
+
+const middleware = new InertiaMiddleware()
+
+Server.hooks.before((ctx) => middleware.beforeRequest(ctx))
+Server.hooks.after((ctx) => middleware.beforeResponse(ctx))
