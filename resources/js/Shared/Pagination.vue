@@ -13,9 +13,14 @@ export default {
     links: Array,
     meta: Object
   },
-  data() {
-    return {
-      pagination: [{isActive: false, page: 'Previous', url: this.meta.previous_page_url}, ...this.links, {isActive: false, page: 'Next', url: this.meta.next_page_url}]
+  computed: {
+    pagination() {
+      return [
+        {isActive: false, page: 'Previous', url: this.meta.previous_page_url}, ...this.links, {
+        isActive: false,
+        page: 'Next',
+        url: this.meta.next_page_url
+      }]
     }
   }
 }

@@ -37,7 +37,7 @@ export default class OrganizationsController {
   public async edit ({params, inertia}: HttpContextContract) {
     const organization = await Organization.findOrFail(params.organization)
     await organization.preload('contacts', function (query) {
-      query.select('id', 'firstName', 'lastName', 'city', 'phone').orderBy(['first_name', 'last_name'])
+      query.select('id', 'firstName', 'lastName', 'city', 'phone').orderBy(['firstName', 'lastName'])
     })
     await inertia.render('Organizations/Edit', {organization})
   }
