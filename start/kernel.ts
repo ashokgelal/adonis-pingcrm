@@ -10,7 +10,7 @@
 */
 
 import Server from '@ioc:Adonis/Core/Server'
-import InertiaMiddleware from 'App/Middleware/InertiaMiddleware'
+import InertiaHooks from 'App/Middleware/InertiaMiddleware'
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +47,7 @@ Server.middleware.registerNamed({
 })
 
 
-const middleware = new InertiaMiddleware()
+const middleware = new InertiaHooks()
 
 Server.hooks.before((ctx) => middleware.beforeRequest(ctx))
 Server.hooks.after((ctx) => middleware.beforeResponse(ctx))

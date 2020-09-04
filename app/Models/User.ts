@@ -75,4 +75,8 @@ export default class User extends BaseModel {
   public static orderByName = scope((query) => {
     query.orderBy('lastName').orderBy('firstName')
   })
+
+  public isDemoUser () {
+    return this.email === 'johndoe@example.com';
+  }
 }

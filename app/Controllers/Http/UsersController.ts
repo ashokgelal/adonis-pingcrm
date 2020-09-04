@@ -1,6 +1,7 @@
 import {HttpContextContract} from '@ioc:Adonis/Core/HttpContext'
 import {Rule, rules, schema} from '@ioc:Adonis/Core/Validator'
 import User from 'App/Models/User'
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class UsersController {
   public async index ({request, auth, inertia}: HttpContextContract) {
@@ -49,8 +50,12 @@ export default class UsersController {
   }
 
   public async update ({request, response, session, params}: HttpContextContract) {
-    console.log('foo')
     const user = await User.findOrFail(params.user)
+    if (Env.get('APP_ENV') === 'demo' && user.isDemoUser()) {
+      session.flash('error', 'Updating the demo user is not allowed.')
+      response.redirect().back()
+      return
+    }
     const emailRule = rules.unique({table: 'users', column: 'email', whereNot: {id: user.id}})
     const validated = await request.validate(UsersController.userValidator([emailRule]))
     user.firstName = validated.first_name
@@ -63,8 +68,13 @@ export default class UsersController {
   }
 
   public async destroy ({response, session, params}: HttpContextContract) {
-    const organization = await User.findOrFail(params.user)
-    await organization.delete()
+    const user = await User.findOrFail(params.user)
+    if (Env.get('APP_ENV') === 'demo' && user.isDemoUser()) {
+      session.flash('error', 'Deleting the demo user is not allowed.')
+      response.redirect().back()
+      return
+    }
+    await user.delete()
     session.flash('success', 'User deleted.')
     response.redirect().toRoute('users.index')
   }
