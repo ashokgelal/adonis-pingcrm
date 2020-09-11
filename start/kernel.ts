@@ -10,7 +10,7 @@
 */
 
 import Server from '@ioc:Adonis/Core/Server'
-import InertiaHooks from 'App/Middleware/InertiaMiddleware'
+import InertiaHooks from 'App/Middleware/InertiaServerHook'
 
 /*
 |--------------------------------------------------------------------------

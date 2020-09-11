@@ -1,6 +1,6 @@
 import {HttpContextContract} from '@ioc:Adonis/Core/HttpContext'
 
-export default class InertiaMiddleware {
+export default class InertiaServerHook {
   public async beforeRequest ({request}: HttpContextContract) {
     const isInertiaRequest = request.header('X-Inertia') || false
     if (isInertiaRequest) {
